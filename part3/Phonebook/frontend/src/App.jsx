@@ -18,7 +18,7 @@ const App = () => {
             .getAll()
             .then(persons => {
                 setPersons(persons);
-            })
+            });
     }, []);
 
     const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
@@ -27,7 +27,7 @@ const App = () => {
         setTimeout(() => {
             console.log('***Notification timeout');
             setNotification({message: '', success: true});
-        }, 6000);
+        }, 10000);
     }
 
     const addPerson = (event) => {
@@ -57,7 +57,10 @@ const App = () => {
                     setNewName('');
                     setNewNumber('');
                     setNotification({message: `${newName} was added`, success: true});
-                });
+                })
+                .catch((err) => {
+                    setNotification({message: err.response.data.error, success: false});
+                })
         }
 
         notificationTimeout();
